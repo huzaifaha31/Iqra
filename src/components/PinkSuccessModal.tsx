@@ -17,9 +17,8 @@ export function PinkSuccessModal({ record, isOpen, onClose }: PinkSuccessModalPr
     `-----------------------------------------\n` +
     `No. Rujukan: *${record.id}*\n` +
     `🌸 Nama Pelajar: *${record.name}*\n` +
-    `🌸 Kategori: *${record.category === 'kanak-kanak' ? 'Kanak-kanak' : record.category === 'dewasa' ? 'Dewasa' : 'Warga Emas'}*\n` +
+    `🌸 Umur: *${record.age}*\n` +
     `🌸 Pilihan Kelas: *${record.classType === 'iqra' ? 'Kelas Iqra\' (Asas)' : 'Kelas Al-Quran (Tahsin)'}*\n` +
-    `🌸 Pilihan Waktu: *${record.preferredTime}*\n` +
     `🌸 No. WhatsApp: *${record.whatsapp}*\n` +
     `${record.notes ? `🌸 Catatan: *${record.notes}*\n` : ''}` +
     `-----------------------------------------\n` +
@@ -75,14 +74,14 @@ export function PinkSuccessModal({ record, isOpen, onClose }: PinkSuccessModalPr
               <span className="font-bold text-slate-800">{record.name}</span>
             </div>
             <div className="flex justify-between">
+              <span className="text-slate-500">Umur:</span>
+              <span className="font-semibold text-slate-800">{record.age}</span>
+            </div>
+            <div className="flex justify-between">
               <span className="text-slate-500">Pakej Dipilih:</span>
               <span className="font-semibold text-rose-700">
                 {record.classType === 'iqra' ? 'Kelas Iqra\' (Asas)' : 'Kelas Al-Quran (Tahsin)'}
               </span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-slate-500">Pilihan Waktu:</span>
-              <span className="text-slate-700">{record.preferredTime}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-slate-500">Kekerapan:</span>

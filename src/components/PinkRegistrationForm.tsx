@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Send, MessageCircle, Heart, Sparkles, CheckCircle2 } from 'lucide-react';
+import { MessageCircle, Heart, Sparkles, CheckCircle2 } from 'lucide-react';
 
 export interface SimpleRegistration {
   id: string;
   name: string;
-  category: 'kanak-kanak' | 'dewasa' | 'warga-emas';
+  age: string;
   classType: 'iqra' | 'quran';
-  preferredTime: string;
   whatsapp: string;
   notes: string;
   submittedAt: string;
@@ -20,8 +19,7 @@ interface PinkRegistrationFormProps {
 export function PinkRegistrationForm({ selectedClassType, onSuccess }: PinkRegistrationFormProps) {
   const [classType, setClassType] = useState<'iqra' | 'quran'>(selectedClassType);
   const [name, setName] = useState('');
-  const [category, setCategory] = useState<'kanak-kanak' | 'dewasa' | 'warga-emas'>('kanak-kanak');
-  const [preferredTime, setPreferredTime] = useState('Malam (8:30 Malam - 9:30 Malam)');
+  const [age, setAge] = useState('');
   const [whatsapp, setWhatsapp] = useState('');
   const [notes, setNotes] = useState('');
   const [error, setError] = useState('');
@@ -36,6 +34,10 @@ export function PinkRegistrationForm({ selectedClassType, onSuccess }: PinkRegis
       setError('Sila masukkan nama pelajar.');
       return;
     }
+    if (!age.trim()) {
+      setError('Sila masukkan umur pelajar.');
+      return;
+    }
     if (!whatsapp.trim() || whatsapp.replace(/\D/g, '').length < 8) {
       setError('Sila masukkan nombor WhatsApp yang sah.');
       return;
@@ -46,9 +48,8 @@ export function PinkRegistrationForm({ selectedClassType, onSuccess }: PinkRegis
     const newRecord: SimpleRegistration = {
       id: `JN-2026-${randomCode}`,
       name: name.trim(),
-      category,
+      age: age.trim(),
       classType,
-      preferredTime,
       whatsapp: whatsapp.trim(),
       notes: notes.trim(),
       submittedAt: new Date().toLocaleDateString('ms-MY')
@@ -63,9 +64,8 @@ export function PinkRegistrationForm({ selectedClassType, onSuccess }: PinkRegis
       `*PENDAFTARAN SESI PERCUMA KELAS MENGAJI ONLINE*\n` +
       `-----------------------------------------\n` +
       `🌸 Nama Pelajar: *${name || '[Nama Belum Diisi]'}*\n` +
-      `🌸 Kategori: *${category === 'kanak-kanak' ? 'Kanak-kanak' : category === 'dewasa' ? 'Dewasa' : 'Warga Emas'}*\n` +
+      `🌸 Umur: *${age || '-'}*\n` +
       `🌸 Pilihan Kelas: *${classType === 'iqra' ? 'Kelas Iqra\' (Asas)' : 'Kelas Al-Quran (Tahsin)'}*\n` +
-      `🌸 Pilihan Waktu: *${preferredTime}*\n` +
       `🌸 No. WhatsApp: *${whatsapp || '-'}*\n` +
       `${notes ? `🌸 Catatan: *${notes}*\n` : ''}` +
       `-----------------------------------------\n` +
@@ -98,7 +98,7 @@ export function PinkRegistrationForm({ selectedClassType, onSuccess }: PinkRegis
 
           <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
             
-            {/* Class Choice */}
+            {/* 1. Class Choice */}
             <div className="space-y-2">
               <label className="block text-xs font-bold text-rose-950 uppercase tracking-wider">
                 1. Pilih Jenis Kelas <span className="text-rose-500">*</span>
@@ -144,7 +144,7 @@ export function PinkRegistrationForm({ selectedClassType, onSuccess }: PinkRegis
               </div>
             </div>
 
-            {/* Name & Category */}
+            {/* 2. Name & 3. Age */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
                 <label className="block text-xs font-bold text-rose-950 uppercase tracking-wider">
@@ -161,57 +161,36 @@ export function PinkRegistrationForm({ selectedClassType, onSuccess }: PinkRegis
 
               <div className="space-y-1.5">
                 <label className="block text-xs font-bold text-rose-950 uppercase tracking-wider">
-                  3. Kategori Pelajar <span className="text-rose-500">*</span>
-                </label>
-                <select
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value as any)}
-                  className="w-full px-4 py-2.5 bg-rose-50/30 text-sm rounded-xl border border-rose-200 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-rose-400"
-                >
-                  <option value="kanak-kanak">Kanak-kanak / Remaja (4 - 17 Tahun)</option>
-                  <option value="dewasa">Dewasa / Belia (18 - 54 Tahun)</option>
-                  <option value="warga-emas">Warga Emas (55 Tahun Ke Atas)</option>
-                </select>
-              </div>
-            </div>
-
-            {/* Time slot & WhatsApp */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <label className="block text-xs font-bold text-rose-950 uppercase tracking-wider">
-                  4. Pilihan Waktu Kelas <span className="text-rose-500">*</span>
-                </label>
-                <select
-                  value={preferredTime}
-                  onChange={(e) => setPreferredTime(e.target.value)}
-                  className="w-full px-4 py-2.5 bg-rose-50/30 text-sm rounded-xl border border-rose-200 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-rose-400"
-                >
-                  <option value="Pagi (9:00 Pagi - 11:30 Pagi)">Pagi (9:00 Pagi - 11:30 Pagi)</option>
-                  <option value="Petang (3:30 Petang - 5:30 Petang)">Petang (3:30 Petang - 5:30 Petang)</option>
-                  <option value="Malam (8:30 Malam - 9:30 Malam)">Malam (8:30 Malam - 9:30 Malam) - Popular</option>
-                  <option value="Malam Fleksibel (9:30 Malam - 10:30 Malam)">Malam (9:30 Malam - 10:30 Malam)</option>
-                  <option value="Hujung Minggu Sahaja (Sabtu & Ahad)">Hujung Minggu Sahaja (Sabtu / Ahad)</option>
-                </select>
-              </div>
-
-              <div className="space-y-1.5">
-                <label className="block text-xs font-bold text-rose-950 uppercase tracking-wider">
-                  5. No. WhatsApp Untuk Dihubungi <span className="text-rose-500">*</span>
+                  3. Umur Pelajar <span className="text-rose-500">*</span>
                 </label>
                 <input
-                  type="tel"
-                  value={whatsapp}
-                  onChange={(e) => setWhatsapp(e.target.value)}
-                  placeholder="Contoh: 0102955726"
-                  className="w-full px-4 py-2.5 bg-rose-50/30 text-sm rounded-xl border border-rose-200 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-rose-400 font-mono"
+                  type="text"
+                  value={age}
+                  onChange={(e) => setAge(e.target.value)}
+                  placeholder="Contoh: 7 tahun / 28 tahun"
+                  className="w-full px-4 py-2.5 bg-rose-50/30 text-sm rounded-xl border border-rose-200 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-rose-400"
                 />
               </div>
             </div>
 
-            {/* Short notes */}
+            {/* 4. WhatsApp Number */}
             <div className="space-y-1.5">
               <label className="block text-xs font-bold text-rose-950 uppercase tracking-wider">
-                6. Catatan Tambahan (Pilihan)
+                4. No. WhatsApp Untuk Dihubungi <span className="text-rose-500">*</span>
+              </label>
+              <input
+                type="tel"
+                value={whatsapp}
+                onChange={(e) => setWhatsapp(e.target.value)}
+                placeholder="Contoh: 0102955726"
+                className="w-full px-4 py-2.5 bg-rose-50/30 text-sm rounded-xl border border-rose-200 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-rose-400 font-mono"
+              />
+            </div>
+
+            {/* 5. Short notes */}
+            <div className="space-y-1.5">
+              <label className="block text-xs font-bold text-rose-950 uppercase tracking-wider">
+                5. Catatan Tambahan (Pilihan)
               </label>
               <input
                 type="text"
@@ -232,7 +211,7 @@ export function PinkRegistrationForm({ selectedClassType, onSuccess }: PinkRegis
             <div className="p-3.5 bg-rose-50/60 rounded-xl border border-rose-200 text-xs text-rose-900 flex items-center justify-between flex-wrap gap-2">
               <div className="flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-rose-500 shrink-0" />
-                <span><strong>Ingatan Mesra:</strong> Sesi pertama adalah 100% PERCUMA. Tiada sebarang caj sebelum anda berpuas hati!</span>
+                <span><strong>Ingatan Mesra:</strong> Sesi pertama adalah 100% PERCUMA. Tiada sebarang bayaran diperlukan sebelum anda berpuas hati!</span>
               </div>
               <span className="font-semibold text-rose-700">8 sesi sebulan · 2x seminggu</span>
             </div>

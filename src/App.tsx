@@ -8,19 +8,17 @@ import { PinkNavbar } from './components/PinkNavbar';
 import { PinkHero } from './components/PinkHero';
 import { PinkPackages } from './components/PinkPackages';
 import { PinkRegistrationForm, SimpleRegistration } from './components/PinkRegistrationForm';
-import { PinkStatusLookup } from './components/PinkStatusLookup';
 import { PinkFooter } from './components/PinkFooter';
 import { PinkSuccessModal } from './components/PinkSuccessModal';
 
-const STORAGE_KEY = 'simple_jomngaji_regs_v1';
+const STORAGE_KEY = 'simple_jomngaji_regs_v2';
 
 const INITIAL_SIMPLE_REGS: SimpleRegistration[] = [
   {
     id: 'JN-2026-8910',
     name: 'Nur Aisyah binti Ahmad',
-    category: 'kanak-kanak',
+    age: '7 tahun',
     classType: 'iqra',
-    preferredTime: 'Malam (8:30 Malam - 9:30 Malam)',
     whatsapp: '0102955726',
     notes: 'Anak baru mula belajar huruf Alif, Ba, Ta.',
     submittedAt: '15/10/2026'
@@ -67,10 +65,6 @@ export default function App() {
     scrollTo('daftar');
   };
 
-  const handleOpenStatus = () => {
-    scrollTo('semakan');
-  };
-
   const handleSelectPackage = (type: 'iqra' | 'quran') => {
     setSelectedClassType(type);
     scrollTo('daftar');
@@ -88,7 +82,6 @@ export default function App() {
       {/* Pink Header Nav */}
       <PinkNavbar
         onOpenRegister={handleOpenRegister}
-        onOpenStatus={handleOpenStatus}
       />
 
       <main className="flex-1">
@@ -102,16 +95,10 @@ export default function App() {
           onSelectPackage={handleSelectPackage}
         />
 
-        {/* Simple Registration Form with WhatsApp auto-fill */}
+        {/* Simple Registration Form with Umur & without time slot */}
         <PinkRegistrationForm
           selectedClassType={selectedClassType}
           onSuccess={handleSuccess}
-        />
-
-        {/* Simple Slot & Registration Status Checker */}
-        <PinkStatusLookup
-          registrations={registrations}
-          onOpenRegister={handleOpenRegister}
         />
       </main>
 

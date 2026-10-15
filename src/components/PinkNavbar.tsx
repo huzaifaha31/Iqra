@@ -2,10 +2,9 @@ import { Heart, MessageCircle } from 'lucide-react';
 
 interface PinkNavbarProps {
   onOpenRegister: () => void;
-  onOpenStatus: () => void;
 }
 
-export function PinkNavbar({ onOpenRegister, onOpenStatus }: PinkNavbarProps) {
+export function PinkNavbar({ onOpenRegister }: PinkNavbarProps) {
   const whatsappUrl = "https://wa.me/60102955726?text=JomNgaji";
 
   return (
@@ -21,7 +20,7 @@ export function PinkNavbar({ onOpenRegister, onOpenStatus }: PinkNavbarProps) {
             <span>JomNgaji Online</span>
           </a>
 
-          {/* Zone 2: 4 clean single-line nav links */}
+          {/* Zone 2: 3 clean single-line nav links */}
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
             <a 
               href="#tentang" 
@@ -41,13 +40,6 @@ export function PinkNavbar({ onOpenRegister, onOpenStatus }: PinkNavbarProps) {
             >
               Tawaran Khas
             </a>
-            <button 
-              type="button"
-              onClick={onOpenStatus}
-              className="hover:text-rose-600 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
-            >
-              Semak Slot
-            </button>
           </nav>
 
           {/* Zone 3: 1 primary action */}
