@@ -1,0 +1,6 @@
+{
+  "name": "Kelas Iqra' & Mengaji Al-Quran Online",
+  "description": "Laman web ringkas pendaftaran kelas Iqra' dan mengaji Al-Quran online tema pink lembut. 8 sesi sebulan, 2x seminggu, cuba 1 sesi percuma.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
